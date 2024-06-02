@@ -83,6 +83,22 @@ kubectl port-forward service/nginx 7800:7800
 ```
 Then you can access the application from [localhost:7800](http://localhost:7800)
 
+# Prometheus & Grafana
+## Prometheus
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml --force-conflicts=true --server-side=true
+
+kubectl apply -f kubernetes/prometheus_rbac.yaml
+
+kubectl apply -f prometheus_instance.yaml
+
+kubectl port-forward svc/prometheus-operated 9090:9090
+
+## Grafana
+kubectl create deployment grafana --image=docker.io/grafana/grafana:latest
+kubectl expose deployment grafana --port 3000
+kubectl port-forward svc/grafana 3000:3000
 # Conclusion
 I have successfully deployed the whole appplication on K8S and all the functionalities can work the same as the application deployed by Docker compose.
 
