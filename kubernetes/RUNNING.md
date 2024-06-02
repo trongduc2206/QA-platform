@@ -1,11 +1,12 @@
 # Prerequisites
 - Docker
-- Kubernete cluster: recommended to be deployed by minikube as instructed in this course. However, if you can not use minikube, just trying any feasible methods to have a Kubernete cluster on your local machine. In my case, I also can used [Kind - Kubernete](https://kind.sigs.k8s.io/) to easily create my own K8S cluster
+- Kubernete cluster: recommended to be deployed by minikube as instructed in this course. The kubernets cluster has enabled metric-server, for example, using below command to enable with minikube:
+```
+minikube addons enable metrics-server
+```
 - kubectl: that is configured to use with your Kubernete cluster
 
 All the commands listed below are used with the assumption that you are in the original folder of the project
-
-If there is some of my commands for loading Docker images into the K8S cluster that are not correct, please help me correct them with your own commands. The target is basically building the Docker image in your local machine and loading it into the K8S cluster.
 
 # Database
 
@@ -47,31 +48,28 @@ kubectl apply -f kubernetes/llm-api -R
 cd qa-api
 minikube image build -t qa-api -f ./Dockerfile .
 cd ../
-kubectl apply -f kubernetes/qa-api-deployment.yaml
-kubectl apply -f kubernetes/qa-api-service.yaml
+kubectl apply -f kubernetes/qa-api -R
 ```
 ## answer-generator
 ```
 cd answer-generator
 minikube image build -t answer-generator -f ./Dockerfile .
 cd ../
-kubectl apply -f kubernetes/answer-generator-deployment.yaml
+kubectl apply -f kubernetes/answer-generator -R
 ```
 ## data-updater
 ```
 cd data-updater
 minikube image build -t data-updater -f ./Dockerfile .
 cd ../
-kubectl apply -f kubernetes/data-updater-deployment.yaml
-kubectl apply -f kubernetes/data-updater-service.yaml
+kubectl apply -f kubernetes/data-updater -R
 ```
 ## qa-ui
 ```
 cd qa-ui
 minikube image build -t qa-ui -f ./Dockerfile .
 cd ../
-kubectl apply -f kubernetes/qa-ui-deployment.yaml
-kubectl apply -f kubernetes/qa-ui-service.yaml
+kubectl apply -f kubernetes/qa-ui -R
 ```
 # nginx
 Run the command below to deploy NGINX server
