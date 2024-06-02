@@ -89,7 +89,7 @@ kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheu
 
 kubectl apply -f kubernetes/prometheus_rbac.yaml
 
-kubectl apply -f prometheus_instance.yaml
+kubectl apply -f kubernetes/prometheus_instance.yaml
 
 kubectl port-forward svc/prometheus-operated 9090:9090
 
