@@ -1,0 +1,11 @@
+---
+export const prerender = true;
+import Layout from "../layout/Layout.astro";
+// import TestButton from "../components/TestButton.svelte";
+import CoursesList from "../components/CoursesList.svelte";
+---
+
+<Layout>
+  <!-- <TestButton client:only={"svelte"} /> -->
+  <CoursesList client:only={"svelte"}/>
+</Layout>

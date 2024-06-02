@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-updater-deployment
+  labels:
+    app: data-updater
+spec:
+  selector:
+    matchLabels:
+      app: data-updater
+  template:
+    metadata:
+      labels:
+        app: data-updater
+    spec:
+      containers:
+        - name: data-updater
+          image: data-updater:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 7777
+          resources:
+            requests: 
+              cpu: 100m
+            limits: 
+              cpu: 200m
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-master
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis-cluster
+                  key: redis-password
+                  optional: false

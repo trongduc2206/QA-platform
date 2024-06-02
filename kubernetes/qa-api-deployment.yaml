@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qa-api-deployment
+  labels:
+    app: qa-api
+spec:
+  selector:
+    matchLabels:
+      app: qa-api
+  template:
+    metadata:
+      labels:
+        app: qa-api
+    spec:
+      containers:
+        - name: qa-api
+          image: qa-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 7777
+          resources:
+            requests: 
+              cpu: 100m
+            limits: 
+              cpu: 200m
+          env:
+            - name: PGPASS
+              valueFrom:
+                secretKeyRef:
+                  name: database-cluster-app
+                  key: pgpass
+                  optional: false 
+            - name: REDIS_HOST
+              value: redis-cluster-master
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis-cluster
+                  key: redis-password
+                  optional: false

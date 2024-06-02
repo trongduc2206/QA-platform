@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: answer-generator-deployment
+  labels:
+    app: answer-generator
+spec:
+  selector:
+    matchLabels:
+      app: answer-generator
+  template:
+    metadata:
+      labels:
+        app: answer-generator
+    spec:
+      containers:
+        - name: answer-generator
+          image: answer-generator:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 7777
+          resources:
+            requests: 
+              cpu: 100m
+            limits: 
+              cpu: 200m
+          env:
+            - name: PGPASS
+              valueFrom:
+                secretKeyRef:
+                  name: database-cluster-app
+                  key: pgpass
+                  optional: false 
+            - name: REDIS_HOST
+              value: redis-cluster-master
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis-cluster
+                  key: redis-password
+                  optional: false
