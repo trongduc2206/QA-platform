@@ -85,8 +85,6 @@ Then you can access the application from [localhost:7800](http://localhost:7800)
 
 # Prometheus & Grafana
 ## Prometheus
-kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
-
 kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml --force-conflicts=true --server-side=true
 
 kubectl apply -f kubernetes/prometheus_rbac.yaml
