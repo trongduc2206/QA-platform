@@ -87,9 +87,7 @@ Then you can access the application from [localhost:7800](http://localhost:7800)
 ## Prometheus
 kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml --force-conflicts=true --server-side=true
 
-kubectl apply -f kubernetes/prometheus_rbac.yaml
-
-kubectl apply -f kubernetes/prometheus_instance.yaml
+kubectl apply -f kubernetes/prometheus -R
 
 kubectl port-forward svc/prometheus-operated 9090:9090
 
