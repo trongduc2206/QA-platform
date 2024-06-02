@@ -85,16 +85,32 @@ Then you can access the application from [localhost:7800](http://localhost:7800)
 
 # Prometheus & Grafana
 ## Prometheus
+Run the commands below to deploy prometheus
+```
 kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml --force-conflicts=true --server-side=true
 
 kubectl apply -f kubernetes/prometheus -R
+```
 
-kubectl port-forward svc/prometheus-operated 9090:9090
+Run the command below, you will receive a url from minikube that helps you accesss the prometheus instance
+```
+minikube service prometheus --url
+```
+You also need to use this url to configure the datasource of Grafana in the next steps.
 
 ## Grafana
+Run the commands below to deploy grafana
+```
 kubectl create deployment grafana --image=docker.io/grafana/grafana:latest
 kubectl expose deployment grafana --port 3000
+```
+Run the command below then you can access the Grafana from http://localhost:3000
+```
 kubectl port-forward svc/grafana 3000:3000
+```
+In the first login, the account is admin/admin, then you are asked to change the password.
+After successfully logined, choose "Connections" -> "Data sources" -> "Add new data source" -> "Prometheus". Then you need to use the prometheus url provided by minikube in the previous step to fill in the field "Prometheus server URL" and save the data source.
+Then, you can create any dashboard you want in Grafana with the data from Prometheus
 # Conclusion
 I have successfully deployed the whole appplication on K8S and all the functionalities can work the same as the application deployed by Docker compose.
 
