@@ -57,11 +57,18 @@ const handleRequest = async (request) => {
             // answerSockets.delete(socket);
             clearInterval(interval);
             answerSocketMap.get(questionId).delete(socket);
-
         };
 
         return response;
-    } else {
+    }  else if(url.pathname === "/metrics" && request.method === "GET") {
+      const response = {
+        service: "qa-api",
+        systemMemoryInfo: Deno.systemMemoryInfo(),
+        memoryUsage: Deno.memoryUsage(),
+      }
+      return Response.json(response)
+    }
+    else {
     }
     
 }

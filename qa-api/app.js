@@ -10,10 +10,10 @@ const answerSocketMap = new Map();
 
 console.log("hello qa-api");
 
-const cachedCourseService = cacheMethodCalls(coursesService, []);
-const cachedQuestionService = cacheMethodCalls(questionService, ["addQuestion", "updateUpvoteTime"]);
-const cachedQuestionUpvotesService = cacheMethodCalls(questionUpvotesService, ["addUpvoteQuestions"]);
-const cachedAnswerUpvotesService = cacheMethodCalls(answerUpvotesService, ["addUpvoteAnswers"]);
+const cachedCourseService = cacheMethodCalls("courseService", coursesService, []);
+const cachedQuestionService = cacheMethodCalls("questionService", questionService, ["addQuestion", "updateUpvoteTime"]);
+const cachedQuestionUpvotesService = cacheMethodCalls("questionUpvotesService", questionUpvotesService, ["addUpvoteQuestions"]);
+const cachedAnswerUpvotesService = cacheMethodCalls("answerUpvotesService",answerUpvotesService, ["addUpvoteAnswers"]);
 
 let producerClient;
 if(Deno.env.get("REDIS_HOST") && Deno.env.get("REDIS_PORT")) {
@@ -419,7 +419,15 @@ const handleRequest = async (request) => {
 
     //   return response;
     // }
-    else {
+  else if(url.pathname === "/metrics" && request.method === "GET") {
+    const response = {
+      service: "qa-api",
+      systemMemoryInfo: Deno.systemMemoryInfo(),
+      memoryUsage: Deno.memoryUsage(),
+    }
+    return Response.json(response)
+  }
+  else {
       const response = {
         status: 404
       }

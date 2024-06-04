@@ -69,7 +69,7 @@
                     console.log(event)
                     const newQuestion = event.data;
                     const newQuestionObj = JSON.parse(newQuestion)
-                    if(newQuestionObj['user_uuid'] != userUuid) {
+                    if(newQuestionObj['user_uuid'] !== $userUuid) {
                         // courseInfoPromise = getCourseInfo();
                         questions = [newQuestionObj, ...questions];
                     }

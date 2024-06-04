@@ -33,9 +33,11 @@ try {
 }
 
 
-const cacheMethodCalls = (object, methodsToFlushCacheWith = []) => {
+const cacheMethodCalls = (key, object, methodsToFlushCacheWith = []) => {
   const handler = {
     get: (module, methodName) => {
+      console.log("cache util");
+      console.log(JSON.stringify(object));
       const method = module[methodName];
       return async (...methodArgs) => {
         if (methodsToFlushCacheWith.includes(methodName)) {
@@ -43,7 +45,7 @@ const cacheMethodCalls = (object, methodsToFlushCacheWith = []) => {
           return await method.apply(this, methodArgs);
         }
 
-        const cacheKey = `${methodName}-${JSON.stringify(methodArgs)}`;
+        const cacheKey = `${key}-${methodName}-${JSON.stringify(methodArgs)}`;
         const cacheResult = await redis.get(cacheKey);
         if (!cacheResult) {
           const result = await method.apply(this, methodArgs);

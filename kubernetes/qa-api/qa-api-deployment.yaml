@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: qa-api
+        prometheus-scrape: "true"
     spec:
       containers:
         - name: qa-api

@@ -14,3 +14,20 @@ spec:
   selector:
     matchLabels:
       operated-prometheus: "true"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: deno-app
+  name: deno-app
+spec:
+  endpoints:
+  - interval: 30s
+    targetPort: 7777
+    path: /metrics
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      prometheus-scrape: "true"
