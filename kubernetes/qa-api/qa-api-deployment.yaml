@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       app: qa-api
+      prometheus-scrape: "true"
   template:
     metadata:
       labels:

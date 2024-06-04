@@ -8,10 +8,12 @@ spec:
   selector:
     matchLabels:
       app: data-updater
+      prometheus-scrape: "true"
   template:
     metadata:
       labels:
         app: data-updater
+        prometheus-scrape: "true"
     spec:
       containers:
         - name: data-updater
